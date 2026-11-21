@@ -11,7 +11,7 @@ App web nhỏ để lập bảng báo giá và xuất thành ảnh, gửi khách
 - Thông tin cửa hàng được lưu trên máy, lần sau không phải gõ lại.
 - **Gửi ảnh**: trên điện thoại sẽ mở bảng chia sẻ (Zalo, Messenger…).
 - **Tải ảnh**: lưu file PNG.
-- **In / PDF**: in ra giấy hoặc lưu thành PDF.
+- **PDF**: lưu file PDF khổ A4 (trên điện thoại mở bảng chia sẻ để lưu vào Tệp hoặc gửi Zalo).
 
 ## Dùng
 
