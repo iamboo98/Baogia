@@ -235,7 +235,7 @@
 <script>
 (() => {
   const $ = id => document.getElementById(id);
-  const KEY = 'baogia-state-v2';
+  const KEY = 'baogia-state-v3';
   const SHOP_KEY = 'baogia-shop-v1';
 
   // ---------- Số & tiền ----------
@@ -303,14 +303,10 @@
   const viDate = iso => { if (!iso) return ''; const [y, m, d] = iso.split('-'); return `${d}/${m}/${y}`; };
 
   // ---------- Trạng thái ----------
-  // Mẫu ban đầu: giữ tên hạng mục, số lượng và đơn giá để 0
+  // Ban đầu chỉ 1 dòng trắng, người bán tự thêm
   const blank = () => ({
     subtitle: '', customer: '', date: today(),
-    items: [
-      { name: 'Dây LAN', unit: 'm', qty: '', price: '' },
-      { name: 'Bộ mesh', unit: 'bộ', qty: '', price: '' },
-      { name: 'Nhân công', unit: 'người', qty: '', price: '' },
-    ],
+    items: [{ name: '', unit: '', qty: '', price: '' }],
     discount: '', vat: '', note: ''
   });
   const emptyItem = () => ({ name: '', unit: '', qty: '', price: '' });
