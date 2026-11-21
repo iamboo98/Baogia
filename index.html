@@ -218,7 +218,7 @@
 <script>
 (() => {
   const $ = id => document.getElementById(id);
-  const KEY = 'baogia-state-v1';
+  const KEY = 'baogia-state-v2';
   const SHOP_KEY = 'baogia-shop-v1';
 
   // ---------- Số & tiền ----------
@@ -286,19 +286,20 @@
   const viDate = iso => { if (!iso) return ''; const [y, m, d] = iso.split('-'); return `${d}/${m}/${y}`; };
 
   // ---------- Trạng thái ----------
-  const sample = () => ({
-    subtitle: 'Lắp đặt mạng Wi-Fi Mesh', customer: '', date: today(),
+  // Mẫu ban đầu: giữ tên hạng mục, số lượng và đơn giá để 0
+  const blank = () => ({
+    subtitle: '', customer: '', date: today(),
     items: [
-      { name: 'Dây LAN', unit: 'm', qty: '29', price: '8.200' },
-      { name: 'Bộ mesh', unit: 'bộ', qty: '3', price: '320.000' },
-      { name: 'Nhân công', unit: 'người', qty: '2', price: '300.000' },
+      { name: 'Dây LAN', unit: 'm', qty: '', price: '' },
+      { name: 'Bộ mesh', unit: 'bộ', qty: '', price: '' },
+      { name: 'Nhân công', unit: 'người', qty: '', price: '' },
     ],
     discount: '', vat: '', note: ''
   });
-  const blank = () => ({ subtitle: '', customer: '', date: today(), items: [{ name: '', unit: '', qty: '1', price: '' }], discount: '', vat: '', note: '' });
+  const emptyItem = () => ({ name: '', unit: '', qty: '', price: '' });
 
   let state, shop;
-  try { state = JSON.parse(localStorage.getItem(KEY)) || sample(); } catch { state = sample(); }
+  try { state = JSON.parse(localStorage.getItem(KEY)) || blank(); } catch { state = blank(); }
   try { shop = JSON.parse(localStorage.getItem(SHOP_KEY)) || {}; } catch { shop = {}; }
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); localStorage.setItem(SHOP_KEY, JSON.stringify(shop)); } catch {} };
 
@@ -337,10 +338,10 @@
           <button class="del" type="button" title="Xoá dòng này" aria-label="Xoá">×</button>
         </div>
         <div class="r2">
-          <input data-k="qty" inputmode="decimal" placeholder="SL" value="${esc(it.qty)}" aria-label="Số lượng">
+          <input data-k="qty" inputmode="decimal" placeholder="0" value="${esc(it.qty)}" aria-label="Số lượng">
           <input data-k="unit" list="units" placeholder="ĐVT" value="${esc(it.unit)}" aria-label="Đơn vị tính">
           <span class="x">×</span>
-          <input data-k="price" inputmode="decimal" placeholder="Đơn giá" value="${esc(it.price)}" aria-label="Đơn giá">
+          <input data-k="price" inputmode="decimal" placeholder="Đơn giá: 0" value="${esc(it.price)}" aria-label="Đơn giá">
         </div>
         <div class="r3"><span>Thành tiền</span><b>${fmt(lineTotal(it))} đ</b></div>`;
       el.querySelectorAll('input').forEach(inp => {
@@ -355,7 +356,7 @@
         if (v) { it.price = fmt(v); e.target.value = it.price; update(); }
       });
       el.querySelector('.del').addEventListener('click', () => {
-        if (state.items.length === 1) { state.items[0] = { name: '', unit: '', qty: '1', price: '' }; }
+        if (state.items.length === 1) { state.items[0] = emptyItem(); }
         else {
           if ((it.name || it.price) && !confirm(`Xoá "${it.name || 'dòng ' + (i + 1)}"?`)) return;
           state.items.splice(i, 1);
@@ -371,7 +372,7 @@
   Object.entries(shopFields).forEach(([id, k]) => $(id).addEventListener('input', e => { shop[k] = e.target.value; update(); }));
 
   $('addItem').addEventListener('click', () => {
-    state.items.push({ name: '', unit: '', qty: '1', price: '' });
+    state.items.push(emptyItem());
     renderItems(); update();
     const inputs = $('items').querySelectorAll('input[data-k="name"]');
     inputs[inputs.length - 1].focus();
@@ -385,7 +386,7 @@
   // ---------- Tính tiền ----------
   function totals() {
     const rows = state.items
-      .filter(it => it.name.trim() || parseMoney(it.price))
+      .filter(it => parseQty(it.qty) > 0 || parseMoney(it.price) > 0)  // dòng để 0 thì không đưa vào ảnh
       .map(it => ({ ...it, q: parseQty(it.qty), p: parseMoney(it.price), t: lineTotal(it) }));
     const subtotal = rows.reduce((s, r) => s + r.t, 0);
     const discount = parseMoney(state.discount);
@@ -464,7 +465,7 @@
   function toast(msg) { const t = $('toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toast.h); toast.h = setTimeout(() => t.classList.remove('show'), 2200); }
 
   async function makeImage() {
-    if (!totals().rows.length) { toast('Chưa có hạng mục nào'); return null; }
+    if (!totals().total) { toast('Chưa nhập số lượng và đơn giá'); return null; }
     if (typeof html2canvas === 'undefined') { toast('Cần có mạng để tạo ảnh'); return null; }
     if (document.fonts && document.fonts.ready) await document.fonts.ready;
     // Tạm hiện phiếu ở kích thước thật để chụp (kể cả khi đang ở tab Soạn)
