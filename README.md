@@ -13,6 +13,9 @@ App web nhỏ để lập bảng báo giá và xuất thành ảnh, gửi khách
 - **Tải ảnh**: lưu file PNG.
 - **PDF**: lưu file PDF khổ A4 (trên điện thoại mở bảng chia sẻ để lưu vào Tệp hoặc gửi Zalo).
 
+- **Lịch sử khách hàng**: lưu tên, SĐT, địa chỉ, hạng mục và thời hạn bảo hành của từng báo giá. Tìm theo tên hoặc SĐT, lọc khách còn bảo hành hoặc sắp hết bảo hành, bấm gọi ngay, mở lại hoặc báo giá lại cho khách cũ.
+- **Sao lưu / khôi phục**: xuất lịch sử ra file `.json` để giữ an toàn hoặc chuyển sang máy khác.
+
 ## Dùng
 
 Mở `index.html` bằng trình duyệt. App là một file duy nhất, không cần cài gì thêm, nhưng cần có mạng để tải font và tạo ảnh.

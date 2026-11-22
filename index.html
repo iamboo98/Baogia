@@ -47,8 +47,8 @@
   .item.new{animation:itemIn .3s ease}
   @keyframes itemIn{from{opacity:0;transform:translateY(-6px)}}
   @media(min-width:960px){
-    .tabs{display:none}
-    .icon-btn{margin-left:auto}
+    .tabs [data-tab="preview"]{display:none}
+    .tabs{max-width:220px}
     main{grid-template-columns:440px minmax(0,1fr);align-items:start}
     .preview-col{position:sticky;top:70px}
   }
@@ -75,6 +75,50 @@
   details summary::after{content:'';width:8px;height:8px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);margin:-4px 2px 0 4px;transition:transform .15s}
   details[open] summary::after{transform:rotate(225deg);margin-top:4px}
   details .body{padding:0 14px 14px}
+
+  /* Tab lịch sử */
+  .history-col{display:none}
+  body[data-tab="history"] .history-col{display:grid}
+  body[data-tab="history"] .editor-col, body[data-tab="history"] .preview-col, body[data-tab="history"] .dock{display:none!important}
+  body[data-tab="history"]{padding-bottom:calc(24px + env(safe-area-inset-bottom))}
+  body[data-tab="history"] main{grid-template-columns:minmax(0,1fr);max-width:760px}
+  body[data-tab="history"] .history-col{animation:tabIn .25s ease}
+
+  /* Trạng thái lưu */
+  .savebar{display:flex;align-items:center;gap:10px;margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}
+  .savebar .st{flex:1;font-size:13px;color:var(--muted);min-width:0}
+  .savebar .st.ok{color:#15803d}
+  .savebar .st.warn{color:#b45309}
+  .btn.sm{min-height:38px;padding:8px 14px;font-size:14px}
+  select{width:100%;font:inherit;font-size:16px;padding:9px 11px;border:1px solid #d1d5db;border-radius:10px;background:#fff;color:var(--ink);min-width:0;-webkit-appearance:none;appearance:none;background-image:linear-gradient(45deg,transparent 50%,#6b7280 50%),linear-gradient(135deg,#6b7280 50%,transparent 50%);background-position:calc(100% - 16px) 55%,calc(100% - 11px) 55%;background-size:5px 5px;background-repeat:no-repeat}
+
+  /* Danh sách lịch sử */
+  .search{position:relative}
+  .chips{display:flex;gap:6px;margin-top:10px;overflow-x:auto;scrollbar-width:none}
+  .chips::-webkit-scrollbar{display:none}
+  .chip{flex:none;border:1px solid var(--line);background:#fff;color:var(--text);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:600}
+  .chip.on{background:var(--blue);border-color:var(--blue);color:#fff}
+  .chip .n{opacity:.7;font-weight:500;margin-left:2px}
+  .hstat{font-size:13px;color:var(--muted);margin:2px 2px 0}
+  .hlist{display:grid;gap:8px}
+  .hcard{background:#fff;border-radius:var(--radius);padding:12px 14px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+  .hcard .h1{display:flex;align-items:baseline;gap:8px}
+  .hcard .cname{flex:1;min-width:0;font-weight:700;color:var(--ink);font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .hcard .amt{font-weight:700;color:var(--blue);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .hcard .meta{margin-top:3px;font-size:13px;color:var(--muted);line-height:1.5}
+  .hcard .meta a{color:var(--blue);text-decoration:none;font-weight:600}
+  .hcard .what{margin-top:4px;font-size:14px;color:var(--text)}
+  .hcard .what small{color:var(--muted)}
+  .badge{display:inline-block;margin-top:8px;font-size:12px;font-weight:600;padding:3px 9px;border-radius:999px}
+  .badge.on{background:#dcfce7;color:#15803d}
+  .badge.soon{background:#fef3c7;color:#b45309}
+  .badge.off{background:#f3f4f6;color:#6b7280}
+  .hcard .acts{display:flex;gap:6px;margin-top:10px}
+  .hcard .acts button,.hcard .acts a{flex:1;min-height:38px;border:0;border-radius:10px;background:var(--blue-soft);color:var(--blue);font-weight:600;font-size:14px;display:grid;place-items:center;text-decoration:none}
+  .hcard .acts .del2{flex:none;width:44px;background:#fef2f2;color:var(--danger)}
+  .hempty{text-align:center;color:var(--muted);padding:36px 12px;font-size:14px;line-height:1.6}
+  .backup{display:flex;gap:8px}
+  .backup .btn{flex:1}
 
   /* Hạng mục: 2 dòng / mục */
   .items{display:grid}
@@ -174,6 +218,10 @@
   #sheet .words{margin-top:14px;text-align:right;font-size:15px;font-style:italic;color:#4b5563}
   #sheet .note{margin-top:28px;padding:14px 18px;border-left:4px solid #f59e0b;background:#fffbeb;border-radius:0 10px 10px 0;font-size:15px;color:#374151;white-space:pre-line;line-height:1.6}
   #sheet .note b{color:#92400e}
+  #sheet .note.warr{border-left-color:#16a34a;background:#f0fdf4}
+  #sheet .note.warr b{color:#166534}
+  #sheet .note + .note{margin-top:10px}
+  #sheet .info .line2{font-size:14px;color:#4b5563;margin-top:2px}
   #sheet .foot{margin-top:auto;padding-top:48px;display:flex;justify-content:space-between;align-items:flex-end;gap:24px}
   #sheet .thanks{font-size:15px;color:#6b7280}
   #sheet .sign{text-align:center;min-width:240px;font-size:15px;color:#4b5563}
@@ -221,7 +269,8 @@
     <h1>Báo giá</h1>
     <div class="tabs" role="tablist">
       <button class="on" data-tab="edit">Soạn</button>
-      <button data-tab="preview">Xem trước</button>
+      <button data-tab="preview">Xem</button>
+      <button data-tab="history">Lịch sử</button>
     </div>
     <button class="icon-btn" id="reset" title="Báo giá mới" aria-label="Báo giá mới">＋</button>
   </div>
@@ -234,8 +283,27 @@
     <section class="card">
       <input id="subtitle" placeholder="Nội dung (VD: Lắp đặt mạng Wi-Fi Mesh)" aria-label="Nội dung báo giá">
       <div class="two" style="margin-top:8px">
-        <input id="customer" placeholder="Khách hàng" aria-label="Khách hàng">
+        <input id="customer" list="custList" placeholder="Tên khách" aria-label="Tên khách hàng" autocomplete="off">
+        <input id="custPhone" inputmode="tel" placeholder="SĐT khách" aria-label="Số điện thoại khách">
+      </div>
+      <input id="custAddr" style="margin-top:8px" placeholder="Địa chỉ lắp đặt" aria-label="Địa chỉ khách">
+      <div class="two" style="margin-top:8px">
         <input id="date" type="date" aria-label="Ngày">
+        <select id="warranty" aria-label="Thời hạn bảo hành">
+          <option value="">Không bảo hành</option>
+          <option value="1">BH 1 tháng</option>
+          <option value="3">BH 3 tháng</option>
+          <option value="6">BH 6 tháng</option>
+          <option value="12">BH 12 tháng</option>
+          <option value="18">BH 18 tháng</option>
+          <option value="24">BH 24 tháng</option>
+          <option value="36">BH 36 tháng</option>
+        </select>
+      </div>
+      <datalist id="custList"></datalist>
+      <div class="savebar">
+        <span class="st" id="saveState"></span>
+        <button class="btn ghost sm" id="btnSave" type="button">Lưu khách</button>
       </div>
     </section>
 
@@ -253,7 +321,7 @@
           <div class="field"><label for="discount">Giảm giá (đ)</label><input id="discount" inputmode="decimal" placeholder="0"></div>
           <div class="field"><label for="vat">VAT (%)</label><input id="vat" inputmode="decimal" placeholder="0"></div>
         </div>
-        <div class="field" style="margin-top:10px"><label for="note">Ghi chú</label><textarea id="note" placeholder="VD: Bảo hành 12 tháng. Báo giá có hiệu lực 7 ngày."></textarea></div>
+        <div class="field" style="margin-top:10px"><label for="note">Ghi chú</label><textarea id="note" placeholder="VD: Báo giá có hiệu lực 7 ngày."></textarea></div>
       </div>
     </details>
 
@@ -267,6 +335,25 @@
         </div>
       </div>
     </details>
+  </div>
+
+  <!-- ========== LỊCH SỬ ========== -->
+  <div class="col history-col">
+    <section class="card">
+      <input id="hSearch" type="search" placeholder="Tìm tên, SĐT, địa chỉ, nội dung…" aria-label="Tìm khách">
+      <div class="chips" id="hChips"></div>
+    </section>
+    <p class="hstat" id="hStat"></p>
+    <div class="hlist" id="hList"></div>
+    <section class="card">
+      <div class="sec-title">Sao lưu dữ liệu</div>
+      <p class="hint" style="margin:0 0 10px">Lịch sử lưu trên máy này. Nên sao lưu ra file định kỳ, khi đổi máy thì khôi phục lại.</p>
+      <div class="backup">
+        <button class="btn ghost sm" id="btnBackup" type="button">Sao lưu ra file</button>
+        <button class="btn ghost sm" id="btnRestore" type="button">Khôi phục từ file</button>
+      </div>
+      <input type="file" id="restoreFile" accept=".json,application/json" hidden>
+    </section>
   </div>
 
   <!-- ========== XEM TRƯỚC ========== -->
@@ -361,27 +448,37 @@
   // ---------- Trạng thái ----------
   // Ban đầu chỉ 1 dòng trắng, người bán tự thêm
   const blank = () => ({
-    subtitle: '', customer: '', date: today(),
+    id: null, savedSig: null,
+    subtitle: '', customer: '', custPhone: '', custAddr: '', date: today(), warranty: '',
     items: [{ name: '', unit: '', qty: '', price: '' }],
     discount: '', vat: '', note: ''
   });
   const emptyItem = () => ({ name: '', unit: '', qty: '', price: '' });
 
   let state, shop;
-  try { state = JSON.parse(localStorage.getItem(KEY)) || blank(); } catch { state = blank(); }
+  try { state = { ...blank(), ...(JSON.parse(localStorage.getItem(KEY)) || {}) }; } catch { state = blank(); }
+  const HIST_KEY = 'baogia-history-v1';
+  let history;
+  try { history = JSON.parse(localStorage.getItem(HIST_KEY)) || []; } catch { history = []; }
+  const saveHistory = () => { try { localStorage.setItem(HIST_KEY, JSON.stringify(history)); return true; } catch { toast('Bộ nhớ máy đầy, không lưu được'); return false; } };
   try { shop = JSON.parse(localStorage.getItem(SHOP_KEY)) || {}; } catch { shop = {}; }
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); localStorage.setItem(SHOP_KEY, JSON.stringify(shop)); } catch {} };
 
   // ---------- Tab (điện thoại) ----------
   document.querySelectorAll('.tabs button').forEach(b => b.addEventListener('click', () => {
-    document.body.dataset.tab = b.dataset.tab;
-    document.querySelectorAll('.tabs button').forEach(x => x.classList.toggle('on', x === b));
-    window.scrollTo(0, 0);
-    fitPreview();
+    showTab(b.dataset.tab);
   }));
 
+  function showTab(tab) {
+    document.body.dataset.tab = tab;
+    document.querySelectorAll('.tabs button').forEach(x => x.classList.toggle('on', x.dataset.tab === tab));
+    window.scrollTo(0, 0);
+    if (tab === 'history') renderHistory();
+    fitPreview();
+  }
+
   // ---------- Form ----------
-  const simpleFields = ['subtitle', 'customer', 'date', 'discount', 'vat', 'note'];
+  const simpleFields = ['subtitle', 'customer', 'custPhone', 'custAddr', 'date', 'warranty', 'discount', 'vat', 'note'];
   const shopFields = { shopName: 'name', shopPhone: 'phone', shopAddr: 'addr' };
 
   function fillForm() {
@@ -452,7 +549,16 @@
     });
   }
 
-  simpleFields.forEach(f => $(f).addEventListener('input', e => { state[f] = e.target.value; update(); }));
+  simpleFields.forEach(f => $(f).addEventListener(f === 'warranty' ? 'change' : 'input', e => { state[f] = e.target.value; update(); }));
+  // Chọn khách cũ từ gợi ý -> tự điền SĐT, địa chỉ
+  $('customer').addEventListener('change', () => {
+    const name = state.customer.trim().toLowerCase();
+    const old = history.find(h => (h.customer || '').trim().toLowerCase() === name);
+    if (!old) return;
+    if (!state.custPhone && old.custPhone) { state.custPhone = old.custPhone; $('custPhone').value = old.custPhone; }
+    if (!state.custAddr && old.custAddr) { state.custAddr = old.custAddr; $('custAddr').value = old.custAddr; }
+    update();
+  });
   $('discount').addEventListener('blur', e => { const v = parseMoney(e.target.value); state.discount = v ? fmt(v) : ''; e.target.value = state.discount; update(); });
   Object.entries(shopFields).forEach(([id, k]) => $(id).addEventListener('input', e => { shop[k] = e.target.value; update(); }));
 
@@ -464,9 +570,9 @@
     last.querySelector('input[data-k="name"]').focus();
   });
   $('reset').addEventListener('click', () => {
-    if (!confirm('Xoá nội dung hiện tại để làm báo giá mới?\n(Thông tin cửa hàng vẫn được giữ.)')) return;
+    if (isDirty() && !confirm('Báo giá đang soạn chưa lưu. Bỏ để làm báo giá mới?')) return;
     state = blank(); fillForm(); update();
-    document.querySelector('.tabs button[data-tab="edit"]').click();
+    showTab('edit');
   });
 
   // ---------- Tính tiền ----------
@@ -490,7 +596,7 @@
       ${shop.phone ? `<div class="line">SĐT: ${esc(shop.phone)}</div>` : ''}
       ${shop.addr ? `<div class="line">${esc(shop.addr)}</div>` : ''}` : '';
     const info = [];
-    if (state.customer) info.push(`<div><div class="k">Kính gửi</div><div class="v">${esc(state.customer)}</div></div>`);
+    if (state.customer || state.custPhone) info.push(`<div><div class="k">Kính gửi</div><div class="v">${esc(state.customer || '')}</div>${state.custPhone ? `<div class="line2">${esc(state.custPhone)}</div>` : ''}${state.custAddr ? `<div class="line2">${esc(state.custAddr)}</div>` : ''}</div>`);
     if (state.subtitle) info.push(`<div><div class="k">Nội dung</div><div class="v">${esc(state.subtitle)}</div></div>`);
     const body = t.rows.length
       ? t.rows.map((r, i) => `<tr><td class="c muted">${i + 1}</td><td class="name">${esc(r.name)}</td><td class="c">${esc(r.unit)}</td><td class="c">${r.q.toLocaleString('vi-VN')}</td><td class="r">${fmt(r.p)}</td><td class="r"><b>${fmt(r.t)}</b></td></tr>`).join('')
@@ -520,6 +626,7 @@
         </table>
         <div class="sum"><div class="box">${sums}</div></div>
         <div class="words">Bằng chữ: ${numToWords(t.total)}.</div>
+        ${state.warranty ? `<div class="note warr"><b>Bảo hành:</b> ${esc(state.warranty)} tháng kể từ ngày lắp đặt${state.date ? ` (đến ${viDate(warrantyEnd(state.date, state.warranty))})` : ''}</div>` : ''}
         ${state.note ? `<div class="note"><b>Ghi chú:</b> ${esc(state.note)}</div>` : ''}
         <div class="foot">
           <div class="thanks">Cảm ơn Quý khách đã quan tâm!<br>Đơn vị tính: VNĐ</div>
@@ -553,8 +660,150 @@
     if (state.note) ex.push('Có ghi chú');
     $('extraSum').textContent = ex.join(' · ') || 'Không có';
     $('shopSum').textContent = shop.name || 'Chưa nhập';
+    renderSaveState();
     clearTimeout(timer); timer = setTimeout(save, 300);
   }
+
+  // ---------- Lịch sử khách ----------
+  function warrantyEnd(dateIso, months) {
+    const [y, m, d] = dateIso.split('-').map(Number);
+    const end = new Date(y, m - 1 + Number(months), d);
+    if (end.getDate() !== d) end.setDate(0);                  // 31/1 + 1 tháng -> 28/2
+    const p = n => String(n).padStart(2, '0');
+    return `${end.getFullYear()}-${p(end.getMonth() + 1)}-${p(end.getDate())}`;
+  }
+  const daysLeft = iso => Math.round((new Date(iso + 'T23:59:59') - new Date()) / 864e5);
+  function warrantyInfo(r) {
+    if (!r.warranty || !r.date) return null;
+    const end = warrantyEnd(r.date, r.warranty), left = daysLeft(end);
+    if (left < 0) return { cls: 'off', text: `Hết BH từ ${viDate(end)}`, key: 'expired' };
+    if (left <= 30) return { cls: 'soon', text: `Sắp hết BH · còn ${left} ngày (${viDate(end)})`, key: 'soon' };
+    return { cls: 'on', text: `Còn BH đến ${viDate(end)}`, key: 'active' };
+  }
+
+  const FIELDS = ['subtitle', 'customer', 'custPhone', 'custAddr', 'date', 'warranty', 'items', 'discount', 'vat', 'note'];
+  const sig = () => JSON.stringify(FIELDS.map(f => state[f]));
+  const hasContent = () => !!(state.customer || state.custPhone || totals().total);
+  const isDirty = () => hasContent() && sig() !== state.savedSig;
+
+  function renderSaveState() {
+    const el = $('saveState');
+    if (!hasContent()) { el.textContent = 'Nhập tên hoặc SĐT khách để lưu lịch sử'; el.className = 'st'; return; }
+    if (!isDirty()) {
+      const rec = history.find(h => h.id === state.id);
+      const t = rec ? new Date(rec.savedAt) : null, p2 = n => String(n).padStart(2, '0');
+      el.textContent = '✓ Đã lưu' + (t ? ` lúc ${p2(t.getHours())}:${p2(t.getMinutes())}, ${p2(t.getDate())}/${p2(t.getMonth() + 1)}` : '');
+      el.className = 'st ok';
+    } else { el.textContent = state.id ? 'Có thay đổi chưa lưu' : 'Chưa lưu'; el.className = 'st warn'; }
+    $('btnSave').textContent = state.id ? 'Lưu thay đổi' : 'Lưu khách';
+  }
+
+  // silent = true: tự lưu khi gửi ảnh/PDF, không báo lỗi nếu thiếu tên khách
+  function saveToHistory(silent = false) {
+    if (!state.customer.trim() && !state.custPhone.trim()) {
+      if (!silent) { toast('Nhập tên hoặc SĐT khách trước'); showTab('edit'); $('customer').focus(); }
+      return false;
+    }
+    if (!isDirty()) { if (!silent) toast('Đã lưu rồi'); return true; }
+    const rec = { id: state.id || Date.now().toString(36) + Math.random().toString(36).slice(2, 6), savedAt: new Date().toISOString(), total: totals().total };
+    FIELDS.forEach(f => rec[f] = JSON.parse(JSON.stringify(state[f] ?? '')));
+    const i = history.findIndex(h => h.id === rec.id);
+    if (i >= 0) history[i] = rec; else history.unshift(rec);
+    if (!saveHistory()) return false;
+    state.id = rec.id; state.savedSig = sig();
+    save(); renderSaveState(); refreshCustList();
+    toast(silent ? 'Đã lưu vào lịch sử khách' : 'Đã lưu');
+    return true;
+  }
+  $('btnSave').addEventListener('click', () => saveToHistory(false));
+
+  function refreshCustList() {
+    const names = [...new Set(history.map(h => (h.customer || '').trim()).filter(Boolean))];
+    $('custList').innerHTML = names.map(n => `<option value="${esc(n)}">`).join('');
+  }
+
+  let hFilter = 'all';
+  const norm = s => String(s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd');
+  function renderHistory() {
+    const q = norm($('hSearch').value.trim());
+    const counts = { all: history.length, active: 0, soon: 0, expired: 0 };
+    history.forEach(h => { const w = warrantyInfo(h); if (w) { counts[w.key]++; if (w.key === 'soon') counts.active++; } });
+    const chips = [['all', 'Tất cả'], ['active', 'Còn bảo hành'], ['soon', 'Sắp hết BH'], ['expired', 'Hết BH']];
+    $('hChips').innerHTML = chips.map(([k, t]) => `<button class="chip${hFilter === k ? ' on' : ''}" data-f="${k}">${t}<span class="n"> ${counts[k]}</span></button>`).join('');
+    $('hChips').querySelectorAll('.chip').forEach(c => c.addEventListener('click', () => { hFilter = c.dataset.f; renderHistory(); }));
+
+    let list = history.slice().sort((a, b) => (b.date || '').localeCompare(a.date || '') || b.savedAt.localeCompare(a.savedAt));
+    if (hFilter !== 'all') list = list.filter(h => { const w = warrantyInfo(h); return w && (w.key === hFilter || (hFilter === 'active' && w.key === 'soon')); });
+    if (q) list = list.filter(h => norm([h.customer, h.custPhone, h.custAddr, h.subtitle, h.note, ...(h.items || []).map(i => i.name)].join(' ')).includes(q)
+                                    || String(h.custPhone || '').replace(/\D/g, '').includes(q.replace(/\D/g, '') || '#'));
+    const nCust = new Set(history.map(h => norm(h.customer) + '|' + String(h.custPhone || '').replace(/\D/g, ''))).size;
+    $('hStat').textContent = history.length ? `${list.length} / ${history.length} báo giá · ${nCust} khách` : '';
+
+    if (!history.length) { $('hList').innerHTML = `<div class="hempty">Chưa có khách nào.<br>Soạn báo giá, nhập tên hoặc SĐT khách rồi bấm <b>Lưu khách</b>.<br>Gửi ảnh / PDF cũng tự lưu.</div>`; return; }
+    if (!list.length) { $('hList').innerHTML = `<div class="hempty">Không tìm thấy khách phù hợp.</div>`; return; }
+
+    $('hList').innerHTML = list.map(h => {
+      const w = warrantyInfo(h);
+      const items = (h.items || []).filter(i => i.name && (parseQty(i.qty) || parseMoney(i.price))).map(i => i.name);
+      const tel = String(h.custPhone || '').replace(/[^\d+]/g, '');
+      return `<div class="hcard" data-id="${h.id}">
+        <div class="h1"><span class="cname">${esc(h.customer || h.custPhone || 'Khách')}</span><span class="amt">${fmt(h.total)} đ</span></div>
+        <div class="meta">${[h.date ? viDate(h.date) : '', h.custPhone ? esc(h.custPhone) : '', esc(h.custAddr || '')].filter(Boolean).join(' · ')}</div>
+        ${h.subtitle || items.length ? `<div class="what">${esc(h.subtitle || '')}${items.length ? `${h.subtitle ? '<br>' : ''}<small>${esc(items.join(', '))}</small>` : ''}</div>` : ''}
+        ${w ? `<span class="badge ${w.cls}">${w.text}</span>` : ''}
+        <div class="acts">
+          <button data-a="open">Mở</button>
+          <button data-a="copy">Báo giá lại</button>
+          ${tel ? `<a href="tel:${tel}">Gọi</a>` : ''}
+          <button data-a="del" class="del2" aria-label="Xoá">✕</button>
+        </div></div>`;
+    }).join('');
+    $('hList').querySelectorAll('.hcard').forEach(card => card.querySelectorAll('button[data-a]').forEach(b => b.addEventListener('click', () => {
+      const rec = history.find(h => h.id === card.dataset.id); if (!rec) return;
+      if (b.dataset.a === 'del') {
+        if (!confirm(`Xoá báo giá của "${rec.customer || rec.custPhone}" ngày ${viDate(rec.date)}?`)) return;
+        history = history.filter(h => h.id !== rec.id); saveHistory();
+        if (state.id === rec.id) { state.id = null; state.savedSig = null; }
+        refreshCustList(); renderHistory(); renderSaveState(); return;
+      }
+      if (isDirty() && state.id !== rec.id && !confirm('Báo giá đang soạn chưa lưu. Vẫn mở báo giá khác?')) return;
+      state = { ...blank(), ...JSON.parse(JSON.stringify(rec)) };
+      delete state.total; delete state.savedAt;
+      if (b.dataset.a === 'copy') {               // báo giá mới cho khách cũ: giữ hạng mục, ngày hôm nay
+        state.id = null; state.savedSig = null; state.date = today();
+      } else state.savedSig = sig();
+      fillForm(); update(); showTab('edit');
+      toast(b.dataset.a === 'copy' ? 'Đã tạo báo giá mới từ báo giá cũ' : 'Đã mở báo giá');
+    })));
+  }
+  $('hSearch').addEventListener('input', renderHistory);
+
+  // Sao lưu / khôi phục
+  $('btnBackup').addEventListener('click', () => {
+    if (!history.length) { toast('Chưa có dữ liệu để sao lưu'); return; }
+    const data = { app: 'baogia', version: 1, exportedAt: new Date().toISOString(), shop, history };
+    download(new Blob([JSON.stringify(data, null, 1)], { type: 'application/json' }), `bao-gia-sao-luu-${today()}.json`);
+    toast(`Đã sao lưu ${history.length} báo giá`);
+  });
+  $('btnRestore').addEventListener('click', () => $('restoreFile').click());
+  $('restoreFile').addEventListener('change', async e => {
+    const f = e.target.files[0]; e.target.value = '';
+    if (!f) return;
+    try {
+      const data = JSON.parse(await f.text());
+      if (data.app !== 'baogia' || !Array.isArray(data.history)) throw 0;
+      let added = 0, updated = 0;
+      data.history.forEach(r => {
+        if (!r || !r.id) return;
+        const i = history.findIndex(h => h.id === r.id);
+        if (i < 0) { history.push(r); added++; }
+        else if ((r.savedAt || '') > (history[i].savedAt || '')) { history[i] = r; updated++; }
+      });
+      if (data.shop && !shop.name) { shop = data.shop; Object.entries(shopFields).forEach(([id, k]) => $(id).value = shop[k] ?? ''); }
+      saveHistory(); save(); refreshCustList(); renderHistory(); update();
+      toast(`Đã khôi phục: ${added} mới, ${updated} cập nhật`);
+    } catch { toast('File sao lưu không hợp lệ'); }
+  });
 
   // ---------- Xuất ảnh ----------
   function toast(msg) { const t = $('toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toast.h); toast.h = setTimeout(() => t.classList.remove('show'), 2200); }
@@ -593,11 +842,12 @@
   $('btnDownload').addEventListener('click', async () => {
     toast('Đang tạo ảnh…');
     const blob = await makeImage(); if (!blob) return;
-    download(blob); toast('Đã tải ảnh');
+    download(blob); toast('Đã tải ảnh'); saveToHistory(true);
   });
   $('btnShare').addEventListener('click', async () => {
     toast('Đang tạo ảnh…');
     const blob = await makeImage(); if (!blob) return;
+    saveToHistory(true);
     const file = new File([blob], fileName(), { type: 'image/png' });
     if (navigator.canShare && navigator.canShare({ files: [file] })) {
       try { await navigator.share({ files: [file], title: 'Bảng báo giá' }); } catch (e) { /* người dùng huỷ */ }
@@ -608,6 +858,7 @@
     if (!window.jspdf) { toast('Cần có mạng để tạo PDF'); return; }
     toast('Đang tạo PDF…');
     const canvas = await makeCanvas(true); if (!canvas) return;
+    saveToHistory(true);
     const { jsPDF } = window.jspdf;
     const pdf = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait', compress: true });
     const pageW = 210, pageH = 297;
@@ -649,6 +900,7 @@
 
   // ---------- Khởi động ----------
   fillForm();
+  refreshCustList();
   update();
   if (document.fonts) document.fonts.ready.then(fitPreview);
 })();
